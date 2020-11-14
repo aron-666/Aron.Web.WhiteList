@@ -1,0 +1,9 @@
+
+/intro/appsettings.json
+
+
+/intro/bin/*
+/intro/obj/*
+
+/Aron.Web.WhiteList/bin/*
+/Aron.Web.WhiteList/obj/*
