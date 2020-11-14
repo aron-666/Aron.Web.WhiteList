@@ -76,7 +76,12 @@ namespace intro
             }
             var whiteListOptions = new WhiteListOptions();
             Configuration.GetSection("WhiteListOptions").Bind(whiteListOptions);
-            app.UsePathBase(whiteListOptions.BasePath);
+
+            app.Use((context, next) =>
+            {
+                context.Request.PathBase = new Microsoft.AspNetCore.Http.PathString(whiteListOptions.BasePath);
+                return next();
+            });
             app.UseDefaultWhiteListMiddleWare(x => x.Response.Redirect(whiteListOptions.BasePath));
             app.UseStaticFiles();
 
