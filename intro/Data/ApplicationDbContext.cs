@@ -17,10 +17,6 @@ namespace intro.Data
             : base(options)
         {
         }
-        public ApplicationDbContext(DbContextOptions options)
-            : base(options)
-        {
-        }
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

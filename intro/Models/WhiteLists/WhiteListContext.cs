@@ -17,9 +17,9 @@ namespace intro.Models.WhiteLists
         {
         }
 
-        public WhiteListContext(DbContextOptions options) : base(options)
-        {
-        }
+        // public WhiteListContext(DbContextOptions options) : base(options)
+        // {
+        // }
         public virtual DbSet<Whitelists> Whitelists { get; set; }
         public virtual DbSet<WlContent> WlContent { get; set; }
 
@@ -150,14 +150,22 @@ namespace intro.Models.WhiteLists
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            IConfiguration config = new ConfigurationBuilder()
-              .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
-              .Build();
+            try
+            {
+                IConfiguration config = new ConfigurationBuilder()
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
 
-            var sql = new Config.Sql();
-            config.GetSection("Sql").Bind(sql);
-            sql.UseSqlService(optionsBuilder);
-            base.OnConfiguring(optionsBuilder);
+                var sql = new Config.Sql();
+                config.GetSection("Sql").Bind(sql);
+                sql.UseSqlService(optionsBuilder);
+                base.OnConfiguring(optionsBuilder);
+            }
+            catch
+            {
+
+            }
+            
         }
     }
 }

@@ -27,17 +27,17 @@ namespace intro.Services
             _mapper = mapper;
             _sql = sql;
             _env = env;
-            Thread t = new Thread(() =>
-            {
-                while (true)
-                {
-                    Thread.Sleep(3000);
-                    Update();
-                }
-            });
+            // Thread t = new Thread(() =>
+            // {
+            //     while (true)
+            //     {
+            //         Thread.Sleep(3000);
+            //         Update();
+            //     }
+            // });
 
-            t.IsBackground = true;
-            t.Start();
+            // t.IsBackground = true;
+            // t.Start();
         }
 
         public void Update()
@@ -72,8 +72,8 @@ namespace intro.Services
                     .EnableSensitiveDataLogging();
             }
 
-            var bedContext = new wt.WhiteListContext(op.Options);
-            return bedContext;
+            var context = new wt.WhiteListContext(op.Options);
+            return context;
         }
     }
 }

@@ -38,13 +38,14 @@ namespace Aron.Web.WhiteList
         public bool Check(string path, IPAddress address)
         {
 
+            path = path.ToLower();
             if(!_options.Enable)
             {
                 return true;
             }
             if(_options.BasePath != "/")
             {
-                if(path.StartsWith(_options.BasePath))
+                if(path.StartsWith(_options.BasePath.ToLower()))
                 {
                     path = path.Remove(1, _options.BasePath.Length - 1);
                 }
@@ -61,7 +62,7 @@ namespace Aron.Web.WhiteList
             bool ok = false;
             try
             {
-                var routes = _whiteLists.Where(x => path.StartsWith(x.Route));
+                var routes = _whiteLists.Where(x => path.StartsWith(x.Route.ToLower()));
                 if (routes.Count() == 0)
                 {
                     ok = true;

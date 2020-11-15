@@ -20,7 +20,7 @@ namespace intro
             try
             {
                 logger.Debug("init main");
-                BuildWebHost(args).Build().Run();
+                CreateHostBuilder(args).Build().Run();
             }
             catch (Exception ex)
             {
