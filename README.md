@@ -1,4 +1,5 @@
 
+
 ![](https://komarev.com/ghpvc/?username=aron-666&color=green)
 # Aron.Web.WhiteList
 This is a firewall solution work from .Net Core 3.1, you can achieve the whitelist effect by setting policy for routing.
@@ -28,9 +29,9 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
  
    or inject WhiteListService from hard-coding.
  
-   `services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);`
+       services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);
    
-   `services.AddSingleton<IWhiteListService, WhiteListService>();`
+       services.AddSingleton<IWhiteListService, WhiteListService>();
 
   
 3. inject options. if not need, you can not to inject.
