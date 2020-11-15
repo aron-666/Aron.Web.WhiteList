@@ -5,7 +5,8 @@
     You can use migration to create database
     ### Create WhiteListContext to database.
     
-       dotnet ef migrations add whitelists --context intro.Models.WhiteLists.WhiteListContext 
+       dotnet ef migrations add whitelists --context intro.Models.WhiteLists.WhiteListContext
+	   dotnet ef database update --context intro.Models.WhiteLists.WhiteListContext
    
    ### Unmark MyWhiteListService
 
@@ -132,7 +133,7 @@
  
 	 ### Whitelists table:
 	| ID | Name     | Route                         |
-	|----|-----------|-------------------------------|
+	|----|----------|-------------------------------|
 	| 1  | register | /Identity/Account/Register    |
 
 	### WL_Content table
