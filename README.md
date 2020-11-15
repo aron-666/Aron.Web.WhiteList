@@ -22,13 +22,13 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
 ### Startup.ConfigureServices
  1. inject IContentChecker
  
-     `services.AddSingleton<IContentChecker, ContentChecker>();`
+        services.AddSingleton<IContentChecker, ContentChecker>();
  
 2. inject IWhiteListService
 
    inject WhiteListService from database intro.Models.WhiteLists.WhiteListContext.
   
-   `services.AddSingleton<IWhiteListService, MyWhiteListService>();`
+       services.AddSingleton<IWhiteListService, MyWhiteListService>();
  
    or inject WhiteListService from hard-coding.
  
@@ -39,7 +39,7 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
   
 4. inject options. if not need, you can not to inject.
 
-   `services.AddSingleton(whiteListOptions);`
+       services.AddSingleton(whiteListOptions);
 
 ### Startup.Configure
  1. UseDefaultWhiteListMiddleWare and configure onKill event.  
