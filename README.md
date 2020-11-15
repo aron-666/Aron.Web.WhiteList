@@ -29,6 +29,7 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
    or inject WhiteListService from hard-coding.
  
    `services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);`
+   
    `services.AddSingleton<IWhiteListService, WhiteListService>();`
 
   
