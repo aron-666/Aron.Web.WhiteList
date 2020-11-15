@@ -32,12 +32,63 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
  
    or inject WhiteListService from hard-coding.
  
-       services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);
-   
-       services.AddSingleton<IWhiteListService, WhiteListService>();
+        {
+            var whitelists = new List<WhiteLists>()
+            {
+                new WhiteLists(){
+                    Id = 1,
+                    Name = "register",
+                    Route = "/Identity/Account/Register",
+                    WlContent = new List<WlContent>()
+                }
+            };
+            var content = new List<WlContent>()
+            {
+                //Allow ::1 (localhost)
+                new WlContent()
+                {
+                    Id = 1,
+                    Wid = whitelists.First().Id,
+                    Policy = "Allow",
+                    Content = "::1",
+                    Source = whitelists.First()
+                },
+                //Allow 127.0.0.1
+                new WlContent()
+                {
+                    Id = 2,
+                    Wid = whitelists.First().Id,
+                    Policy = "Allow",
+                    Content = "127.0.0.1",
+                    Source = whitelists.First()
+                },
+                //Allow 192.168.64.129-254
+                new WlContent()
+                {
+                    Id = 3,
+                    Wid = whitelists.First().Id,
+                    Policy = "Allow",
+                    Content = "192.168.64.128/25",
+                    Source = whitelists.First()
+                },
+                //Deny 192.168.64.201
+                new WlContent()
+                {
+                    Id = 4,
+                    Wid = whitelists.First().Id,
+                    Policy = "Deny",
+                    Content = "192.168.64.201",
+                    Source = whitelists.First()
+                },
+            };
+            whitelists[0].WlContent = content;
+            
+            services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);
+        }
+        services.AddSingleton<IWhiteListService, WhiteListService>();
 
   
-4. inject options. if not need, you can not to inject.
+3. inject options. if not need, you can not to inject.
 
        services.AddSingleton(whiteListOptions);
 
