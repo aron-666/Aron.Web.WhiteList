@@ -31,7 +31,8 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
 
   
 3. inject options. if not need, you can not to inject.
-`services.AddSingleton(whiteListOptions);`
+
+   `services.AddSingleton(whiteListOptions);`
 
 ### Startup.Configure
  1. UseDefaultWhiteListMiddleWare and configure onKill event.  
