@@ -24,11 +24,12 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
  
 2. inject IWhiteListService
   inject WhiteListService from database intro.Models.WhiteLists.WhiteListContext.
-  `services.AddSingleton<IWhiteListService, WhiteListService>();`
+  `services.AddSingleton<IWhiteListService, MyWhiteListService>();`
  
    or inject WhiteListService from hard-coding.
  
    `services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);`
+   `services.AddSingleton<IWhiteListService, WhiteListService>();`
 
   
 3. inject options. if not need, you can not to inject.
