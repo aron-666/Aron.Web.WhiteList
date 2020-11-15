@@ -19,7 +19,8 @@ We use [IPNetwork2](https://github.com/lduchosal/ipnetwork)  to handle address a
 
 ### Startup.ConfigureServices
  1. inject IContentChecker
- `services.AddSingleton<IContentChecker, ContentChecker>();`
+ 
+     `services.AddSingleton<IContentChecker, ContentChecker>();`
  
 2. inject IWhiteListService
   inject WhiteListService from database intro.Models.WhiteLists.WhiteListContext.
