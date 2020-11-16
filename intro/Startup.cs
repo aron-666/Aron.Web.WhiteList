@@ -188,7 +188,7 @@ namespace intro
                     context.Request.Path = context.Request.Path.Value.Remove(0, 1);
                 return next();
             });
-
+            app.UseMiddleware<LogReqMiddleware>();
             //use whitelist middleware
             app.UseDefaultWhiteListMiddleWare(x =>
                 x.Response.Redirect(Path.Combine(whiteListOptions.BasePath, "Home/Forbidden")));
