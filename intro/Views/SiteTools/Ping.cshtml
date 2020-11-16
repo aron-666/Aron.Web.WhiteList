@@ -1,0 +1,70 @@
+@{
+    ViewData["Title"] = "Ping";
+}
+
+<script>
+    Date.prototype.format = function (fmt) {
+        var o = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(), 
+        "s+": this.getSeconds(), 
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "S": this.getMilliseconds() 
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+        if (new RegExp("(" +  k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" +  o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    function ping(){
+        addr = document.getElementById("address").value;
+        $.ajax({
+            url: 'PingApi?address=' + addr,
+            type: 'Get',
+            
+            @* contentType: 'application/json', *@
+            //為api 加入token
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("X-CSRF-TOKEN",
+                    $('input:hidden[name="__RequestVerificationToken"]').val());
+            },
+            success: function (data, status) {
+                logs = document.getElementById("logs");
+                logs.innerText += new Date().format("yyyy-MM-dd hh:mm:ss");
+                logs.innerText += "　　";
+                logs.innerText += data.data.Status;
+                logs.innerText += "　　";
+                logs.innerText += data.data.Address;
+                logs.innerText += "　　";
+                logs.innerText += data.data.TotalMs + "ms";
+                logs.innerText += "\n";
+
+                
+            }
+        });
+    }
+
+    
+</script>
+
+<div clsass="container">
+    <div class="row" align-items-start>
+        <div class="col-md-1">Ping: </div>
+        <div class="col-md-3">
+            
+            <input id="address" class="" type="text">
+        </div>
+
+        <div class="col-md-1">
+            
+            <input id="send" class="btn btn-primary" type="button" onclick="ping()" value="send">
+        </div>
+    </div>
+</div>
+
+<div id="logs">
+    <br>
+    <br>
+</div>

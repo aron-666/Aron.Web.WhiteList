@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
 namespace intro
 {
@@ -31,7 +32,7 @@ namespace intro
         }
 
         public IConfiguration Configuration { get; }
- 
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -60,76 +61,83 @@ namespace intro
             })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services
+                .AddMvc()
+                .AddWebApiConventions()
+                .AddJsonOptions(opts =>
+                {
+                    opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+                });
             services.AddRazorPages();
-            
+
             //1. inject IContentChecker
             services.AddSingleton<IContentChecker, ContentChecker>();
 
             //2. inject IWhiteListService
 
             ///inject WhiteListService from database intro.Models.WhiteLists.WhiteListContext
-            //services.AddSingleton<IWhiteListService, MyWhiteListService>();
+            services.AddSingleton<IWhiteListService, MyWhiteListService>();
 
             //or inject WhiteListService from hard-coding
-#region hard-coding
-            //inject whitelist record
-            {
-                var whitelists = new List<WhiteLists>()
-                {
-                    new WhiteLists(){
-                        Id = 1,
-                        Name = "register",
-                        Route = "/Identity/Account/Register",
-                        WlContent = new List<WlContent>()
-                    }
-                };
-                var content = new List<WlContent>()
-                {
-                    //Allow ::1 (localhost)
-                    new WlContent()
-                    {
-                        Id = 1,
-                        Wid = whitelists.First().Id,
-                        Policy = "Allow",
-                        Content = "::1",
-                        Source = whitelists.First()
-                    },
-                    //Allow 127.0.0.1
-                    new WlContent()
-                    {
-                        Id = 2,
-                        Wid = whitelists.First().Id,
-                        Policy = "Allow",
-                        Content = "127.0.0.1",
-                        Source = whitelists.First()
-                    },
-                    //Allow 192.168.64.129-254
-                    new WlContent()
-                    {
-                        Id = 3,
-                        Wid = whitelists.First().Id,
-                        Policy = "Allow",
-                        Content = "192.168.64.128/25",
-                        Source = whitelists.First()
-                    },
-                    //Deny 192.168.64.201
-                    new WlContent()
-                    {
-                        Id = 4,
-                        Wid = whitelists.First().Id,
-                        Policy = "Deny",
-                        Content = "192.168.64.201",
-                        Source = whitelists.First()
-                    },
-                };
-                whitelists[0].WlContent = content;
+            // #region hard-coding
+            //             //inject whitelist record
+            //             {
+            //                 var whitelists = new List<WhiteLists>()
+            //                 {
+            //                     new WhiteLists(){
+            //                         Id = 1,
+            //                         Name = "register",
+            //                         Route = "/Identity/Account/Register",
+            //                         WlContent = new List<WlContent>()
+            //                     }
+            //                 };
+            //                 var content = new List<WlContent>()
+            //                 {
+            //                     //Allow ::1 (localhost)
+            //                     new WlContent()
+            //                     {
+            //                         Id = 1,
+            //                         Wid = whitelists.First().Id,
+            //                         Policy = "Allow",
+            //                         Content = "::1",
+            //                         Source = whitelists.First()
+            //                     },
+            //                     //Allow 127.0.0.1
+            //                     new WlContent()
+            //                     {
+            //                         Id = 2,
+            //                         Wid = whitelists.First().Id,
+            //                         Policy = "Allow",
+            //                         Content = "127.0.0.1",
+            //                         Source = whitelists.First()
+            //                     },
+            //                     //Allow 192.168.64.129-254
+            //                     new WlContent()
+            //                     {
+            //                         Id = 3,
+            //                         Wid = whitelists.First().Id,
+            //                         Policy = "Allow",
+            //                         Content = "192.168.64.128/25",
+            //                         Source = whitelists.First()
+            //                     },
+            //                     //Deny 192.168.64.201
+            //                     new WlContent()
+            //                     {
+            //                         Id = 4,
+            //                         Wid = whitelists.First().Id,
+            //                         Policy = "Deny",
+            //                         Content = "192.168.64.201",
+            //                         Source = whitelists.First()
+            //                     },
+            //                 };
+            //                 whitelists[0].WlContent = content;
 
-                
-                services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);
-            }
-            services.AddSingleton<IWhiteListService, WhiteListService>();
 
-#endregion hard-coding
+            //                 services.AddSingleton<IEnumerable<WhiteLists>>(whitelists);
+            //             }
+            //             services.AddSingleton<IWhiteListService, WhiteListService>();
+
+            // #endregion hard-coding
             //3. inject options. if not need, you can not inject. 
             services.AddSingleton(whiteListOptions);
 
@@ -137,7 +145,7 @@ namespace intro
             var config = new MapperConfiguration(c => c.AddProfile(new Models.MyMapper()));
             services.AddSingleton(config.CreateMapper());
 
-            if(Configuration.GetValue<bool>("UseProxy"))
+            if (Configuration.GetValue<bool>("UseProxy"))
             {
                 services.Configure<ForwardedHeadersOptions>(options =>
                 {
@@ -145,7 +153,9 @@ namespace intro
                         ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
                 });
             }
-            
+
+            services.AddOpenApiDocument();
+            services.AddAntiforgery(o => o.HeaderName = "X-CSRF-TOKEN");
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -163,7 +173,7 @@ namespace intro
                 app.UseHsts();
             }
 
-            if(Configuration.GetValue<bool>("UseProxy"))
+            if (Configuration.GetValue<bool>("UseProxy"))
             {
                 app.UseForwardedHeaders();
             }
@@ -174,31 +184,43 @@ namespace intro
             {
                 context.Request.PathBase = new Microsoft.AspNetCore.Http.PathString(whiteListOptions.BasePath);
 
-                if(context.Request.Path.Value.StartsWith("//"))
+                if (context.Request.Path.Value.StartsWith("//"))
                     context.Request.Path = context.Request.Path.Value.Remove(0, 1);
                 return next();
             });
-            
+
             //use whitelist middleware
-            app.UseDefaultWhiteListMiddleWare(x => 
+            app.UseDefaultWhiteListMiddleWare(x =>
                 x.Response.Redirect(Path.Combine(whiteListOptions.BasePath, "Home/Forbidden")));
 
             app.UseStaticFiles();
-            
+
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern:  "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
-                
+
             });
+
+            app.UseOpenApi();       // serve OpenAPI/Swagger documents
+
+            app.UseSwaggerUi3();    // serve Swagger UI
+
+            app.UseReDoc(config =>  // serve ReDoc UI
+            {
+                // 這裡的 Path 用來設定 ReDoc UI 的路由 (網址路徑) (一定要以 / 斜線開頭)
+                config.Path = "/redoc";
+            });
+
+            app.UseRouting();
 
         }
     }

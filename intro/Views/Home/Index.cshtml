@@ -2,7 +2,96 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<div>
+    <p>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <div class="input-group-text dropdown-toggle" data-toggle="collapse" data-target="#tools"
+                aria-expanded="false" aria-controls="tools">
+                Tools
+            </div>
+        </div>
+        <div class="form-control"></div>
+    </div>
+    </p>
+    <div class="collapse" id="tools">
+        <div class="card card-body">
+            <table class="table">
+                <thead>
+                    <th scope="col">
+                        #
+                    </th>
+
+                    <th scope="col">
+                        Item
+                    </th>
+
+                    <th scope="col">
+                        Content
+                    </th>
+
+                    <th scope="col">
+                        Remarks
+                    </th>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <th scope="row">
+                            1
+                        </th>
+                        
+                        <td>
+                            Whitelist
+                        </td>
+                        
+                        <td>
+                            <a href="https://github.com/aron-666/Aron.Web.WhiteList" target="_blank">github page</a>
+                        </td>
+
+                        <td>
+
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            2
+                        </th>
+                        
+                        <td>
+                            Ping tool
+                        </td>
+                        
+                        <td>
+                            <a asp-area="" asp-controller="SiteTools" asp-action="Ping" target="_blank">Ping</a>
+                        </td>
+                        
+                        <td>
+                            Authorize
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th scope="row">
+                            3
+                        </th>
+                        
+                        <td>
+                            Swagger
+                        </td>
+                        
+                        <td>
+                            <a asp-area="" asp-controller="swagger" asp-action="" target="_blank">Swagger</a>
+                        </td>
+                        
+                        <td>
+                            whitelist used
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
