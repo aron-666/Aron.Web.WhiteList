@@ -41,6 +41,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Docs\113new.CT">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Logs\test.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

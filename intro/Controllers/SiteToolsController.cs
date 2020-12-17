@@ -8,7 +8,6 @@ namespace intro.Controllers
 {
     [AutoValidateAntiforgeryToken]
     [ResponseCache(NoStore = true)]
-    [Authorize]
     public class SiteToolsController : Controller
     {
         private readonly ILogger<SiteToolsController> _logger;
@@ -18,12 +17,18 @@ namespace intro.Controllers
             _logger = logger;
         }
 
+        [Authorize]
         public IActionResult Ping()
         {
 
             return View();
         } 
 
+        public IActionResult WhatIsMyIP()
+        {
+            ViewBag.ip = HttpContext.Connection.RemoteIpAddress.ToString();
+            return View();
+        }
 
     }
 }

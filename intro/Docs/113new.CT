@@ -1,0 +1,1650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>0</ID>
+      <Description>"bypass"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+        Alloc(CRCBypass,512)
+        Alloc(FakeDump,8376320)
+        Label(HSCRCBypass)
+        Label(BackToOP)
+        Label(MSCRCBypass)
+        Label(Normal)
+        Label(MSmemcpy)
+        Label(SearchAOB)
+        Label(StartHook)
+        Label(BackToMSCRC)
+        RegisterSymbol(HSCRCBypass)
+        RegisterSymbol(MSCRCBypass)
+        RegisterSymbol(FakeDump)
+        CreateThread(MSmemcpy)
+        CRCBypass:
+        HSCRCBypass:
+        mov     eax, fs:[20]
+        cmp     eax, [esp+0c]
+        jne     BackToOP
+        mov     fs:[34], 57
+        xor     eax, eax
+        ret     000c
+        BackToOP:
+        push    ebp
+        mov     ebp, esp
+        jmp     OpenProcess+5
+        MSCRCBypass:
+        push    eax
+        lea     eax, [ecx]
+        cmp     eax, 00401000
+        jb      Normal
+        cmp     eax, 00BFE000
+        ja      Normal
+        push    ebx
+        mov     ebx, FakeDump
+        sub     eax, 00401000
+        add     eax, ebx
+        movzx   ecx, byte ptr [eax]
+        pop     ebx
+        pop     eax
+        jmp     Normal+04
+        Normal:
+        pop     eax
+        movzx   ecx, byte ptr [ecx]
+        mov     edx, [ebp+14]
+        jmp     [BackToMSCRC]
+        MSmemcpy:
+        mov     edi, FakeDump
+        mov     esi, 00401000
+        mov     ecx, 001FF400
+        repe    movsd
+        mov     eax, 00401000
+        SearchAOB:
+        cmp     [eax], 8B09B60F
+        je      StartHook
+        inc     eax
+        cmp     eax, 00BFE000
+        jle     SearchAOB
+        ret
+        StartHook:
+        lea     ebx, [eax+05]
+        sub     ebx, MSCRCBypass
+        neg     ebx
+        mov     byte ptr [eax], e9
+        mov     [eax+01], ebx
+        mov     byte ptr [eax+05], 90
+        add     eax, 6
+        mov     [BackToMSCRC], eax
+        BackToMSCRC:
+        dd      0
+        OpenProcess:
+        jmp     HSCRCBypass
+        [Disable]
+        OpenProcess:
+        mov     edi, edi
+        push    ebp
+        mov     ebp, esp
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>98</ID>
+      <Description>"爆擊100%"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+00BF949c:
+DB 5B 82 D7 BE 8D A8 FD 05 1F 7C 21 B6 6A BA FE D4 D3 F5 A7 76 26 90 1A B2
+[Disable]
+00BF949c:
+DB 90 D9 71 77 F5 D9 27 AB CF 3E B9 D6 6F 2A 8E 91 32 60 09 94 01 4B 88 A8
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>99</ID>
+      <Description>"會心之眼"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+00BF949c:
+DB 7A B0 53 AD FF 9D 6A B5 02 90 2A 6E 79 D0 B4 A9 B3 2F 4C 9D B6 F8 E4 3D
+[Disable]
+00BF949c:
+DB 9B 6E 6A 37 74 53 BB D9 68 90 29 8E 35 DC 82 BD E1 16 EC AD 42 90 25 6E
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>7</ID>
+      <Description>"速度激發"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+00BF901C:
+DB 2C 0B 78 BB 58 C0 DB 25 31 70 EA 2D 5F 4B F0 88 8B 82 45 A4 65 70 D8 35 E3 BE 7F 2D 88 81 6C 01 FF 13 2B 76 C6 BA 24 AD D5 25 69 15 2B 70 25 6E 40 F1 72 15 8A 97 AB A0 94 8F 2A 0E BB B7 24 7A 6C 25 D3 83 A9 6F D7 39 DB AA DB E6 29 A1 31 C7 FF 53 15 7A
+[Disable]
+00BF901C:
+DB 4C 63 23 22 1A 1B 11 61 B4 8F D5 6D 97 14 DF 0B A4 F8 5E B8 C8 8F EA 8D 84 E5 C8 0A 6F 73 51 30 1B 9C D4 7D 52 AD FE 8D 69 F5 6F B4 53 90 2A AE 1C 0F B3 74 78 98 A5 E3 70 90 16 72 55 8C 3F 06 62 FC 31 A8 44 90 16 6E 20 BC 4C 7A 8E 4D D5 2B EF 57 DC 99
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>55</ID>
+      <Description>"無限MP"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+BF9541:
+DB 90 D9 71 62 99 B4 86 CB A4 35 1C 16 70 16 96 9B CD 56 58 72 B9 C3 BA 5E
+[DISABLE]
+BF9541:
+DB 90 D9 71 77 F5 D9 27 AB CF 3E B9 D6 6F 2A 8E 91 32 60 09 94 01 4B 88 A8
+
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>6</ID>
+      <Description>"攻速"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+00BF90C4:
+DB 07 10 B2 0F 7F 6F 82 CF 7F 6E 2B 25 52 E2 F1 2A C2 11 57 F1 54 F2 D9 ED
+[Disable]
+00BF90C4:
+DB FA CB 27 B0 5F 3E 81 D5 3E 90 D5 8D DC 78 78 37 C6 C3 BB E1 0C 70 2A 6
+
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>100</ID>
+      <Description>"終極天使"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+00bf8e48:
+db A0 C2 A3 1C 15 1E E5 08 AA 8F 15 76 A0 8B D5 38 5D AC C6 09 3A 70 DA 75 4A E9 65 06 4D 2F 33 10 17 70 19 4E 9F A3 E1 84 1C 0D 27 94 B8 6F 19 26 E5 AF EC 71 7F 65 8F 0B 7E 70 E9 51 CB A5 81 BF 2E 0D FC 7D DC 6F 25 AE C5 21 49 E0 0E 49 02 0F 9C 6F D9 51 E2 3C 0E BB E7 71 D8 15 4E 90 E5 8D 34 AF 59 BA D0 CE D2 25 C9 71 DA ED 54 6E 64 08 73 23 43 30 65 70 D9 FD D0 16 AA 70 B7 50 85 A3 ED 8F D5 91
+00bf8ef0:
+db 6F 95 BF 6F AB FC 7D 43 D6 8F 26 5A 53 64 41 82 21 0B 12 BC C3 6F D9 AD B4 A2 96 BC D4 FF E0 FD 69 DA 12 C6 BA 9C 52 AD E6 39 72 35 4B 35 32 EE 4E BA D7 24 D3 BD 26 21 25 90 1A 3E
+00bf8ecc:
+db 7F FF A0 3E FB 07 F5 59 76 70 15 EE 34 87 4C 3D F8 2E EE F9 B1 3A 2D C6 88 BB 41 80 D2 C3 1A 6C 2E 26 F2 95 F0 EE 89 26 77 4F 34 B9 6E 70 15 A6 46 EF F8 AD 79 C7 6F 15 73 70 2A 6E AA 16 81 01 74 42 08 08 A9 A9 E1 45 DE 12 2B 62 98 96 09 DB AE CD CD 79 7B 15 3F 87 AA F8 39 8C D5 8F 26 3E 78 C8 42 BE 43 16 F2 65 06 90 19 0E 15 CF C9 F3 B9 04 9A F7 B1 26 E5 B9 1C 0D 19 5C 66 06 F8 CA 4E AE 2D 5A 3D 06 5F 15 31 F8 AA C8 E2 8F 2A 4E 58 13 66 89 99 30 4B E4 B3 8F E9 8D 0B 15 7D E0 69 A2 07 07 91 29 DE 39 99 CC 60 6C 6A C8 7B E3 4E 32 32 8A 2D DF 9E A2 F9 F6 14 AD 72 90 D6 AD A7 D0 12 39 86 96 C8 19 8B 8F E6 6D 5E 06 04 6C F3 6A 64 AB A5 BA 19 4A BE 3F BD 5E F3 27 ED DA 70 AE 0D 7A A7 9A 72 92 D5 94 93 8C 2A 90 DA DD A0 75 F9 64 AE CB 27 23 DB 6F 1A 92 C5 34 E2 16 67 5B B3 70 8D D9 15 B6 4C F6 C0 84 BC C9 3E 4C EE 31 32 56 1F C8 69 75 40 4E AB 9B 00 70 29 32
+[disable]
+000bf8e48:
+db 14 19 37 D3 C8 B8 99 AE 10 90 E6 79 FD 4C 6A D0 67 52 83 E6 4E 90 D9 69 6F 3F FA A2 FC D1 17 3D 77 90 DA 4D 0D BB 0D D2 D8 6D 90 06 30 70 D5 09 3B 2F 0B 2E 79 59 70 F9 72 90 15 AE A9 19 87 B0 CD 38 84 6D 1A 90 D5 8D 11 A3 D9 D7 18 CD BE AE B0 6F 2A 92 80 3C C2 0A E4 11 56 00 48 90 D9 6D DA 34 F2 EA 0F 92 57 57 35 90 DA 11 C7 B8 76 98 C7 B5 C3 AC 0D 90 DA FD 5B 09 0A CE 4B 50 70 FE 15 90 15 B2
+00bf8ef0:
+db 89 9B DA 94 DC D4 A6 74 38 90 1A 96 51 5C AA 22 E2 52 15 89 44 90 D5 6D AB D8 EA 92 C5 56 97 5C 0A 90 D9 8D BA 9C 52 AD E6 39 72 35 4B 35 32 EE 47 97 1D 98 BB EC C0 6C F5 6F D6 BD
+00bf8ecc:
+db 33 56 64 CC B1 22 63 9E E2 6F 19 92 32 4F 85 D5 79 2A AC 96 72 70 25 92 88 BB 41 80 D2 C3 1A 6C 2E 26 F2 95 55 90 67 F8 82 3C C3 97 84 8F D9 59 43 64 4F 73 22 7B 9A 1B C4 8F E9 91 C2 6C 0C 70 66 63 80 13 4C 70 D5 91 DE 12 2B 62 98 96 09 DB AE CD CD 79 69 0A 0F 16 52 78 B0 18 25 90 15 3E 55 EC 6B 62 62 5F 13 AB 44 90 D9 71 68 D0 41 8E 83 0E 72 44 86 6F 19 6E 1C 0D 19 5C 66 06 F8 CA 4E AE 2D 5A 3B 52 62 F6 91 12 B3 FF A2 8F 19 B2 4A A3 BB 59 1A DD CD 52 B4 8F E6 91 1E E8 A3 BF 40 1F FD F5 00 90 25 8E 99 CC 60 6C 6A C8 7B E3 4E 32 32 8A D9 1B E7 B4 DE 38 A7 0D 3C 90 19 AE B2 E2 D2 B1 15 97 8E 95 AA 8F EA 8D B9 AE 97 C0 75 BD 04 CE 6A 90 D6 71 BE 3F BD 5E F3 27 ED DA 70 AE 0D 7A 17 5F 55 37 F8 AA BA 09 70 70 2A DE 8F 50 DB 57 84 DA BE 7A 88 8F 2A 92 83 55 FA 9C AC D2 E7 1C D8 8F 1A 8E 4C F6 C0 84 BC C9 3E 4C EE 31 32 56 23 E7 73 3B 39 9F DB 79 F2 8F EA ED
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>90</ID>
+      <Description>"楓葉祝福"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+00BF9454:
+DB BA D3 5E 0D 9D F6 6A A8 BA 8F 2A 66 07 41 E7 55 05 CD AE 7A 8D 22 29 D2
+[Disable]
+00BF9454:
+DB B2 45 A1 16 2D 0A B5 90 DA 6F 15 8E FC B4 E2 32 A7 15 97 E1 CE 8F D9 6D
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>5</ID>
+      <Description>"紫色蘋果"</Description>
+      <LastState/>
+      <Color>FF00FF</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+00BF8ECC:
+DB 95 CE 8F 46 77 7E 34 8A 6B 90 15 52 B8 0A 6E B6 73 79 4C 2A 48 99 B2 D2 0A 95 F2 17 37 80 B4 88 5F 7B 1F C6 C6 AC 54 8C 66 A5 62 0C 4C 70 1A 66 91 81 B5 E8 0C AC 45 2F 98 6F D6 11 27 57 E9 D5 9F 43 50 D1 D8 68 CA 24 5B 82 D7 BE 8D A8 FD 05 1F 7C 21 B6 6A BA FE D4 D3 F5 A7 76 26 90 1A B2 0E 19 30 6F CB 80 79 53 13 70 26 72 2D 6F 12 1B 5F 9A 27 87 58 97 35 8C 46 8C 3C 48 FD F0 4A EA DF 7C DF 49 5B 30 53 89 82 99 4A FC 84 8F EA AD D0 80 CB C0 06 5C 06 86 8C 8F D9 71 13 57 18 F4 B8 C2 A0 9F F0 6F 16 92 37 04 BE 88 21 F0 45 BC C2 8F D6 8D 13 88 6D F6 40 6C B3 B7 00 70 19 AA
+[Disable]
+00BF8ECC:
+DB E1 58 37 6A C7 BA 51 0B 0E 90 D6 71 FA 18 6A 00 C7 50 03 D0 0E 90 D9 8D 0A 95 F2 17 37 80 B4 88 5F 7B 1F C6 95 A8 CD 89 44 6D 4E 94 08 70 E9 55 0E 7C 4E 29 E0 73 4A 71 40 90 E9 8D 00 CF D1 39 78 8E CE 01 70 70 EA 6D 5B 82 D7 BE 8D A8 FD 05 1F 7C 21 B6 CB 30 84 DF 86 21 FC 7E 8C 6F 25 B2 AF E1 FA 5F 0D D7 FF 7A 9A 8F 2A 92 1D 22 02 05 10 11 28 E8 A0 8F 25 6E 46 8C 3C 48 FD F0 4A EA DF 7C DF 49 52 78 C5 8D C2 2B 6E B4 04 70 29 AE D0 80 CB C0 06 5C 06 86 8C 8F D9 71 13 57 18 F4 B8 C2 A0 9F F0 6F 16 92 37 04 BE 88 21 F0 45 BC C2 8F D6 8D A2 3C 14 5B E5 A1 D8 3A 4A 70 E6 B9
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>1</ID>
+      <Description>"無敵"</Description>
+      <LastState/>
+      <Color>000080</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+0097643f:
+jmp 009778bf
+006AA956:
+db 90 90 90 90 90 90 90 90
+[disable]
+0097643f:
+jne 009778bf
+006AA956:
+push esi
+call 006aa956
+jmp 006aa9ac
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>11</ID>
+      <Description>"笨怪"</Description>
+      <LastState/>
+      <Color>000080</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+009D78A0:
+je 009D78BC
+[DISABLE]
+00920CC9:
+db 75 1a
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>92</ID>
+      <Description>"怪物不退"</Description>
+      <LastState/>
+      <Color>000080</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+0069DB1D:
+jmp 0069DB22
+[disable]
+0069DB1D:
+db E8 A3 7B A8 FF
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>3</ID>
+      <Description>"快速生怪"</Description>
+      <LastState/>
+      <Color>000080</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+
+00698F84:
+db 90 90
+00680cb5:
+db 90 90
+[disable]
+00698F84:
+db 75 2b 8B D6 E8 5D DF D7 FF
+0069B15C:
+db 74 40 2B 45 EC 79 3B
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>91</ID>
+      <Description>"格檔"</Description>
+      <LastState/>
+      <Color>000080</Color>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+00977409:
+mov [ebp+0c],0
+mov [ebp+10],0
+jmp 0097743A
+
+[DISABLE]
+00977409:
+cmp [ebp+0c],ebx
+jne 00977413
+cmp [ebp+10],ebx
+je 0097743A
+mov eax,[ebp-10]
+fild dword ptr [ebp+10]
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>112</ID>
+      <Description>"全圖打"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+registersymbol(badegg)
+alloc(badegg,256)
+label(do1)
+label(do2)
+badegg:
+do1:
+push esi
+push edi
+mov edi,[esp+c]
+mov eax,FFFFFFFF
+mov [edi],eax
+mov [edi+4],eax
+do2:
+mov eax,55555
+mov [edi+8],eax
+mov [edi+c],eax
+mov eax,edi
+pop edi
+pop esi
+ret
+00414A94:
+jmp badegg
+[DISABLE]
+00414A94:
+db 56 8B 74 24 0C 57 FF 76 08
+unregistersymbol(badegg)
+dealloc(badegg)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>113</ID>
+      <Description>"全圖吸怪"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+registersymbol(ESIAddy)
+registersymbol(YoYoDupe)
+registersymbol(hookit)
+registersymbol(onoff)
+alloc(YoYoDupe, 256)
+alloc(RunFlag, 4)
+alloc(ESIValue, 4)
+alloc(EDIValue, 4)
+alloc(ESIAddy,4)
+alloc(hookit,128)
+alloc(onoff,4)
+label(NoVac)
+label(DupeXVac)
+label(DoNormal)
+
+onoff:
+dd 1
+YoYoDupe:
+Push Eax
+Push Ecx
+mov ecx,[onoff]
+cmp [onoff],0
+Cmp [RunFlag], 2
+Je DupeXVac
+Mov Eax,[00BF16E8]
+Add Eax, F00
+Mov Eax, [Eax]
+Sub Eax, C
+Mov [ESIValue],Eax
+Mov Eax,[Eax+114]
+Mov [EDIValue],Eax
+Inc [RunFlag]
+Inc [RunFlag]
+DupeXVac:
+Cmp Esi,[ESIValue]
+Je DoNormal
+Push Ecx
+Mov Ecx,ESIAddy
+Mov [Ecx],Esi
+Pop Ecx
+DoNormal:
+mov [esi+00000110],ebx
+Pop Ecx
+Pop Eax
+Jmp 009D35A7
+ESIAddy:
+dd 0
+RunFlag:
+dd 0
+ESIValue:
+dd 0
+EDIValue:
+dd 0
+hookit:
+cmp [onoff], 0
+je NoVac
+Cmp [ESIAddy], 0
+Je NoVac
+Push Eax
+Push Ebx
+Mov Eax,[ESIAddy]
+Mov Ebx,[EDIValue]
+Mov [Eax+110],Ebx
+Mov Eax,[Eax+110]
+Mov [Eax+4C],Ebx
+Mov [Eax+50],Ebx
+Pop Ebx
+Pop Eax
+NoVac:
+Mov [Ebx+000004A0],Eax
+Jmp 0069B0B7
+
+0069B0B1:
+jmp hookit
+009D35A1:
+jmp YoYoDupe
+
+[DISABLE]
+0069B0B1:
+db 89 83 a0 04 00 00 8D
+009D35A1:
+db 89 9E 10 01 00 00 E8
+dealloc(YoYoDupe)
+dealloc(RunFlag)
+dealloc(ESIValue)
+dealloc(EDIValue)
+dealloc(ESIAddy)
+dealloc(hookit)
+dealloc(onoff)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>2</ID>
+      <Description>"寵物全圖吸"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+registersymbol(PetGetItem)
+alloc(PetGetItem,256)
+registersymbol(PetGetItemSwitch)
+alloc(PetGetItemSwitch,4)
+label(NormalPet)
+
+PetGetItemSwitch:
+ dd 1
+PetGetItem:
+ cmp [PetGetItemSwitch], 0
+ je NormalPet
+ push ebx
+ mov ebx, [ebp+0c]
+ mov [ebx], edi
+ mov [ebx+04], eax
+ pop ebx
+ jmp 0050D05A
+
+NormalPet:
+ lea eax, [ebp-38]
+ push eax
+ call dword ptr [00B1513C]
+ jmp 0050D04D
+0050D043:
+jmp PetGetItem
+[disable]
+0050D043:
+db 8D 45 C8 50 FF 15 8C 56 BF 00 85 C0 75 09
+unregistersymbol(PetGetItem)
+dealloc(PetGetItem)
+unregistersymbol(PetGetItemSwitch)
+dealloc(PetGetItemSwitch)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>114</ID>
+      <Description>"全圖吸物"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+registersymbol(ItemVac)
+alloc(ItemVac, 1024)
+ItemVac:
+pushad
+mov ecx, [ebp+8]
+mov ebx, [ebp-24]
+mov [ecx], ebx
+mov [ecx+4], eax
+mov ecx, eax
+mov eax, ebx
+lea edx, [eax-19]
+mov [ebp-34], edx
+lea edx, [ecx-32]
+add eax, 19
+add ecx, A
+mov [ebp-30], edx
+mov [ebp-2C], eax
+mov [ebp-28], ecx
+popad
+push eax
+push [ebp-24]
+lea eax,[ebp-34]
+jmp 0050CE67
+
+0050ce60:
+jmp ItemVac
+[DISABLE]
+0050ce60:
+push eax
+push [ebp-24]
+lea eax,[ebp-34]
+push eax
+unregistersymbol(ItemVac)
+dealloc(ItemVac)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>126</ID>
+      <Description>"全圖打箱子"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+Alloc(FullMapBox, 64)
+Label(ICSBack)
+
+FullMapBox:
+Cmp [Esp], 00975512
+Jne ICSBack
+Mov [Esp], 00975516
+Jmp ICSBack
+
+ICSBack:
+Jmp IntersectRect
+
+00BF56B0:
+DD FullMapBox
+[Disable]
+00BF56B0:
+DD IntersectRect
+DeAlloc(FullMapBox)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>4</ID>
+      <Description>"圖鑑全開"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+Alloc(Palerma,256)
+Label(exit)
+Palerma:
+exit:
+mov eax,5
+jmp 0097E9CF
+0097E9CA:
+jmp Palerma
+[Disable]
+0097E9CA:
+db e8 50 F9 DA FF
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>60</ID>
+      <Description>"控制走怪"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+
+        alloc(MyLR,1024)
+        registersymbol(MyLR)
+        alloc(MyDir,4)
+        alloc(MyCt,4)
+        alloc(MyPt1,4)
+        label(MyLR1)
+        label(GoLR)
+        label(GoLR1)
+        label(GoLR2)
+        label(GoLR3)
+        label(GoLR4)
+        label(GoLR5)
+        label(GoLRback)
+        label(JmpLR)
+        label(JmpLR1)
+        label(JmpLR2)
+        label(JmpLRback)
+        label(MyState)
+        label(MyCharX)
+        label(LRDir1)
+        label(LRDir2)
+        label(LRDir3)
+        label(LRDir4)
+        label(LRDir5)
+        label(LRDir6)
+
+        MyDir:
+        DD 1
+
+        MyLR:
+        pop edi
+        pop esi
+        pop ebp
+        pop ebx
+        push eax
+        cmp [00BF16F8],00000000
+        je MyLR1
+
+        pop eax
+        cmp dword ptr [esp], 009D88F8
+        je GoLR
+        cmp dword ptr [esp], 009D8D30
+        je JmpLR
+        ret
+
+        MyLR1:
+        pop eax
+        ret
+
+        GoLR:
+        add esp,4
+        call MyState
+        push 03
+        pop ecx
+        mov [edi+20],eax
+        xor edx,edx
+        div ecx
+        cmp [MyDir], 1
+        je GoLRback
+        cmp [MyDir], 3
+        je GoLR1
+        cmp [MyDir], 4
+        je GoLR3
+        cmp edx, [MyDir]
+        je GoLRback
+        mov [esi+000004E0],0
+        jmp GoLRback
+
+        GoLR1:
+        push eax
+
+        call MyCharX
+
+        jmp GoLR4
+
+        GoLR3:
+
+        push eax
+
+        mov eax,[MyPt1]
+
+        GoLR4:
+
+        cmp edx, 1
+
+        je GoLR5
+
+        jg GoLR2
+
+        cmp eax,[esi+1CC]
+
+        pop eax
+
+        mov [esi+000004E0],5
+
+        jl GoLRback
+
+        mov [esi+000004E0],0
+
+        jmp GoLRback
+
+        GoLR2:
+
+        cmp eax,[esi+1CC]
+
+        pop eax
+
+        mov [esi+000004E0],5
+
+        jg GoLRback
+
+        mov [esi+000004E0],0
+
+        jmp GoLRback
+
+        GoLR5:
+
+        pop eax
+
+        mov [esi+000004E0],0
+
+        GoLRback:
+
+        jmp  009D8904
+
+        //================================
+
+        JmpLR:
+
+        add esp,4
+
+        call MyState
+
+        cmp [MyDir], 1
+
+        je JmpLRback
+
+        cmp [MyDir], 2
+
+        mov eax,2
+
+        je JmpLRback
+
+        cmp [MyDir], 0
+
+        mov eax,3
+
+        je JmpLRback
+
+        cmp [MyDir], 4
+
+        je JmpLR1
+
+        call MyCharX
+
+        jmp JmpLR2
+
+        JmpLR1:
+
+        mov eax,[MyPt1]
+
+        JmpLR2:
+
+        cmp eax,[esi+1CC]
+
+        mov eax,2
+
+        mov [esi+000004E0],5
+
+        jg JmpLRback
+
+        mov eax,3
+
+        JmpLRback:
+
+        push 03
+
+        jmp  009D88FA
+
+
+
+        //================================
+
+        MyCharX:
+
+        mov eax [00BF16E8]
+
+        mov eax, [eax+2C10]
+
+        ret
+
+        //================================
+
+        MyState:
+
+        push eax
+
+        mov eax, [00BF16E8]
+
+        mov eax, [eax+0398]
+
+        cmp eax, a
+
+        je LRDir1
+
+        cmp eax, b
+
+        je LRDir2
+
+        cmp eax, 14
+
+        je LRDir3
+
+        cmp eax, 15
+
+        je LRDir3
+
+        mov [MyCt], 0
+
+        jmp LRDir4
+
+        LRDir1:
+        mov [MyDir],2
+        cmp [MyCt], 32
+        ja LRDir5
+        inc [MyCt]
+        jmp LRDir4
+
+        LRDir2:
+        mov [MyDir],0
+        cmp [MyCt], 32
+        ja LRDir6
+        inc [MyCt]
+        jmp LRDir4
+
+        LRDir3:
+        mov [MyDir],1
+        jmp LRDir4
+
+        LRDir5:
+        mov [MyDir],3
+        jmp LRDir4
+
+        LRDir6:
+        mov [MyDir],4
+        call MyCharX
+        mov [MyPt1],eax
+
+        LRDir4:
+        pop eax
+        ret
+
+        00416FA8:
+        jmp MyLR
+
+        [disable]
+        00416FA8:
+        db 5F 5E 5D 5B C3 55 8B EC 51
+
+        dealloc(MyLR)
+        unregistersymbol(MyLR)
+        dealloc(MyDir)
+        dealloc(MyCt)
+        dealloc(MyPt1)
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>124</ID>
+      <Description>"走怪掉落"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+registersymbol(Falls)
+registersymbol(Falls_onoff)
+alloc(Falls,128)
+alloc(Falls_onoff,4)
+label(NFalls)
+Falls_onoff:
+dd 1
+Falls:
+pushf
+cmp [Falls_onoff],0
+Je NFalls
+popf
+je 009D99DE
+Jmp 009D9676
+NFalls:
+popf
+jne 009D99DE
+Jmp 009D9BB5
+009d9670:
+jmp Falls
+[Disable]
+009d9670:
+jne 009D9776
+unregistersymbol(Falls)
+unregistersymbol(onoff)
+dealloc(Falls)
+dealloc(onoff)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>125</ID>
+      <Description>"定怪"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+009D03ED:
+jmp 009D0402
+[disable]
+009D03ED:
+je 009D0402
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>63</ID>
+      <Description>"改能力"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Alloc(StatChange,1024)
+Alloc(_str,4)
+Alloc(_dex,4)
+Alloc(_int,4)
+Alloc(_luk,4)
+Alloc(_hp,4)
+Alloc(_maxhp,4)
+Alloc(_mp,4)
+Alloc(_maxmp,4)
+_str:
+DD {0:x}
+_dex:
+DD {1:x}
+_int:
+DD {2:x}
+_luk:
+DD {3:x}
+StatChange:
+mov edi,[ebp+08]
+mov esi,ecx
+push eax
+mov eax,[_str]
+lea edx,[esi+43]
+mov ecx,eax
+call 004F59B2
+mov [esi+47],eax
+mov eax,[_dex]
+lea edx,[esi+4B]
+mov ecx,eax
+call 004F59B2
+mov [esi+4F],eax
+mov eax,[_int]
+lea edx,[esi+53]
+mov ecx,eax
+call 004F59B2
+mov [esi+57],eax
+mov eax,[_luk]
+lea edx,[esi+5B]
+mov ecx,eax
+call 004F59B2
+mov [esi+5F],eax
+pop eax
+jmp 004F08B9
+004F08B4:
+jmp StatChange
+[DISABLE]
+004F08B4:
+mov edi,[ebp+08]
+mov esi,ecx
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>96</ID>
+      <Description>"連撞"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+        0097D9F0:
+        add eax,00000000
+        [disable]
+        0097D9F0:
+        add eax,000003e8
+
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>97</ID>
+      <Description>"不顯傷害"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+0069ACF6:
+db 90 90 90 90 90
+[DISABLE]
+0069ACF6:
+db e8 A1 C1 D7 FF FF 76 50
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>115</ID>
+      <Description>"物品定位"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+        0050CE3B:
+        DB eb 00 8b 4d ec
+        [DISABLE]
+        0050CE3B:
+        DB 75 3e
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>116</ID>
+      <Description>"超級撿物"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+        00487711:
+        db 90 90
+        0050EC03:
+        jmp 0050EC0F
+        [Disable]
+        00487711:
+        db 75 36
+        0050EC03:
+        db eb 4e
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>117</ID>
+      <Description>"滑鼠SS"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+alloc(SSFlyVac,128)
+label(SSFlyRet)
+
+00967CBB:
+jmp SSFlyVac
+db 90
+SSFlyRet:
+
+SSFlyVac:
+pushad
+mov eax,[00BF1AAC]]
+mov eax,[eax+978]
+mov eax,[eax+84]
+mov ecx,[00BF1AAC]]
+mov ecx,[ecx+978]
+mov ecx,[ecx+88]
+mov ebx,[00BF16E8]
+mov [ebx+27DC],eax
+mov [ebx+27E0],ecx
+mov [ebx+27D8],01
+popad
+jmp SSFlyRet
+
+[DISABLE]
+00967CBB:
+db 0f 84 92 00 00 00 8B 86
+dealloc(SSFlyVac)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>118</ID>
+      <Description>"滑鼠CS"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+registersymbol(cseax)
+alloc(cseax,64)
+alloc(MouserX,512)
+alloc(MouserY,512)
+label(normalx)
+label(normaly)
+label(back)
+label(return)
+alloc(CSX,512)
+registersymbol(mode)
+alloc(mode,4)
+mode:
+  dd 1
+cseax:
+  cmp [mode],0
+  je normalx
+  cmp [mode],1
+  je MouserX
+  cmp [mode],2
+  cmp [mode],3
+
+back:
+  jmp 009D4FAC
+
+return:
+  jmp 009D5011
+MouserX:
+  push eax
+  mov eax,[00BF16E8]
+  mov eax,[eax+F00]
+  cmp esi,eax
+  pop eax
+  jne normalx
+
+  mov eax, [00BF1AAC]?
+  mov eax, [eax+978]
+  mov eax, [eax+84]
+  mov [ebx], eax
+  mov edi,[ebp+10]
+  test  edi, edi
+  jne  MouserY
+  jmp 009D500E
+
+  normalx:
+  mov [ebx], eax
+  mov edi,[ebp+10]
+  jmp back
+
+MouserY:
+  push eax
+  mov eax,[00BF16E8]
+  mov eax,[eax+F00]
+  cmp esi,eax
+  pop eax
+  jne normaly
+
+  mov eax, [00BF1AAC]
+  mov eax, [eax+978]
+  mov eax, [eax+88]
+  mov [edi], eax
+  mov ebx,[ebp+14]
+  jmp return
+
+normaly:
+  mov [edi], eax
+  mov ebx,[ebp+14]
+  jmp return
+
+  push eax
+  mov eax, [00BF16E8]
+  lea eax, [eax+EC0]
+  cmp ebx, eax
+  mov eax, [eax]
+  add eax,20
+  mov [ebx], eax
+  pop eax
+  mov edi, [ebp+10]
+  jmp back
+
+  pop eax
+  mov [ebx], eax
+  mov edi, [ebp+10]
+  jmp back
+  push eax
+  mov eax, [00BF16E8]
+  lea eax, [eax+EC4]
+  cmp edi, eax
+
+  mov eax, [eax]
+  mov [edi], eax
+  pop eax
+  mov ebx,[ebp+14]
+  jmp return
+
+  pop eax
+  mov [edi], eax
+  mov ebx,[ebp+14]
+  jmp return
+
+  push eax
+  mov eax,[00BF16E8]
+  mov eax,[eax+2588]
+  cmp eax,32
+  pop eax
+
+  push eax
+  mov eax,[00BF16E8]
+  mov eax,[eax+F00]
+  cmp esi,eax
+  pop eax
+  add eax,0e
+  mov [ebx], eax
+  mov edi,[ebp+10]
+  jmp 009D4FAC
+009D4FA7:
+  jmp cseax
+[Disable]
+
+009D4FA7:
+  mov [ebx],eax
+  mov edi,[ebp+10]
+
+unregistersymbol(cseax)
+dealloc(cseax)
+dealloc(MouserX)
+dealloc(MouserY)
+dealloc(CSX)
+unregistersymbol(mode)
+dealloc(mode)
+dealloc(UberX)
+dealloc(UberY)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>119</ID>
+      <Description>"滑鼠CS開關"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+        mode:
+        dd 1
+
+        [disable]
+        mode:
+        dd 0
+      
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>127</ID>
+      <Description>"人物左右"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Alloc(AutoLRICSEntry, 64)
+Label(ICSReturn)
+RegisterSymbol(AutoLRMain)
+Alloc(AutoLRMain, 128)
+Label(GoLeft)
+Label(GoRight)
+RegisterSymbol(AutoLRRange)
+Alloc(AutoLRRange, 4)
+Alloc(AutoLRValue, 4)
+AutoLRRange:
+DD 14
+AutoLRICSEntry:
+Cmp [Esp], 009E776C
+Jne ICSReturn
+Mov [Esp], AutoLRMain
+ICSReturn:
+Jmp GetFocus
+AutoLRMain:
+Cmp [AutoLRRange], 0
+Je 009E776C
+Push Eax
+Inc [AutoLRValue]
+Mov Eax, [AutoLRRange]
+Cmp Eax, [AutoLRValue]
+Jge GoLeft
+Add Eax, [AutoLRRange]
+Cmp Eax, [AutoLRValue]
+Jge GoRight
+Mov [AutoLRValue], 1
+Jmp GoLeft
+GoLeft:
+Mov [Ebp-08], FFFFFFFF
+Pop Eax
+Jmp 009E7943
+GoRight:
+Mov [Ebp-08], 00000001
+Pop Eax
+Jmp 009E7943
+00BF56E8:
+DD AutoLRICSEntry
+[DISABLE]
+00BF56E8:
+DD GetFocus
+Dealloc(AutoLRICSEntry)
+UnregisterSymbol(AutoLRMain)
+Dealloc(AutoLRMain)
+UnregisterSymbol(AutoLRRange)
+Dealloc(AutoLRRange)
+Dealloc(AutoLRValue)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>128</ID>
+      <Description>"牆值左右"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[Enable]
+Alloc(AutoLRICS,512)
+Alloc(MyLR,4)
+Label(AutoLR)
+Label(GetWall)
+Label(GetChrX)
+Label(GoRight)
+Label(GoLeft)
+
+MyLR:
+DD 1
+
+AutoLRICS:
+Cmp [Esp],009E776C
+Jne GetFocus
+Mov [Esp],AutoLR
+Jmp GetFocus
+
+AutoLR:
+Call GetWall
+Mov  [ebp-08],Eax
+Xor  Ecx,Ecx
+Xor  Eax,Eax
+Cmp  [ebp-08],Eax
+Jmp  009E7943
+
+GetWall:
+Call GetChrX
+Mov  Ecx,[00BF16F0]
+Sub  Eax,[Ecx+24]
+Cmp  Eax,04
+Jle  GoRight
+Call GetChrX
+Mov  Ecx,[Ecx+2C]
+sub  Ecx,Eax
+cmp  Ecx,04
+Jle  GoLeft
+Mov  Eax,[MyLR]
+Ret
+
+GetChrX:
+Mov Eax,[00BF2ECC]
+Mov Eax,[Eax+404]
+Ret
+
+GoRight:
+Mov [MyLR],1
+Mov Eax,1
+Ret
+
+GoLeft:
+Mov [MyLR],FFFFFFFF
+Mov Eax,FFFFFFFF
+Ret
+
+00BF56E8:
+DD AutoLRICS
+
+[Disable]
+00BF56E8:
+DD GetFocus
+
+DeAlloc(MyLR)
+DeAlloc(AutoLRICS)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>129</ID>
+      <Description>"快速恢復HPMP"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[enable]
+alloc(HookFR,1024)
+Registersymbol(HookFR)
+label(HookRet)
+label(HPHandler)
+label(MPHandler)
+label(FastRecoverHP)
+label(DoNormalHP)
+label(HPCheck)
+alloc(HPCounter,4)
+alloc(SetHPCounter,4)
+alloc(RecoverTime,4)
+Registersymbol(SetHPCounter)
+label(FastRecoverMP)
+label(DoNormalMP)
+label(MPCheck)
+alloc(MPCounter,4)
+alloc(SetMPCounter,4)
+Registersymbol(SetMPCounter)
+HookFR:
+cmp [esp],00A1F484
+je HPHandler
+cmp [esp],00A1F5F2
+je MPHandler
+HookRet:
+push ebp
+mov ebp,esp
+sub esp,0c
+jmp 0042A559
+HPHandler:
+mov [esp],FastRecoverHP
+jmp HookRet
+MPHandler:
+mov [esp],FastRecoverMP
+jmp HookRet
+FastRecoverHP:
+push eax
+mov eax,[ebp-1c]
+mov [RecoverTime],eax
+pop eax
+cmp [HPCounter],0
+je HPCheck
+dec [HPCounter]
+cmp ebx,1
+jmp 00A1F487
+HPCheck:
+sub [RecoverTime],0A
+cmp ebx,[RecoverTime]
+jna DoNormalHP
+push eax
+mov eax,[SetHPCounter]
+dec eax
+mov [HPCounter],eax
+pop eax
+DoNormalHP:
+cmp ebx,[ebp-1c]
+jmp 00A1F487
+FastRecoverMP:
+cmp [MPCounter],0
+je MPCheck
+dec [MPCounter]
+cmp ebx,1
+jmp 00A1F5F8
+MPCheck:
+cmp ebx,00002134
+jna DoNormalMP
+push eax
+mov eax,[SetMPCounter]
+dec eax
+mov [MPCounter],eax
+pop eax
+DoNormalMP:
+cmp ebx,00002134
+jmp 00A1F5F8
+SetHPCounter:
+dd {0:x}
+SetMPCounter:
+dd {1:x}
+[Disable]
+unRegistersymbol(HookFR)
+dealloc(HookFR)
+dealloc(HPCounter)
+dealloc(SetHPCounter)
+dealloc(RecoverTime)
+unRegistersymbol(SetHPCounter)
+dealloc(MPCounter)
+dealloc(SetMPCounter)
+unRegistersymbol(SetMPCounter)
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>130</ID>
+      <Description>"定點生怪"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Alloc(Hook,256)
+Alloc(RelifeXY, 8)
+RelifeXY:
+Readmem([00BF16E8]+EC0, 8)
+Hook:
+Mov [Esp+4],0
+Mov Eax,[RelifeXY]
+Mov [Esp+08], eax
+Mov Eax,[RelifeXY+4]
+Mov [Esp+C], eax
+jmp 009D7801
+00B232AC:
+DD Hook
+[DISABLE]
+dealloc(Hook)
+00B232AC:
+DD 009D7801
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>131</ID>
+      <Description>"身旁生怪"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+Alloc(Hook,256)
+
+Hook:
+Mov [Esp+4],0
+mov eax, [00BF16E8]
+add eax, ec0
+mov eax, [eax]
+Mov [Esp+08], eax
+mov eax, [00BF16E8]
+add eax, ec4
+mov eax, [eax]
+sub eax, 10
+Mov [Esp+C], eax
+jmp 009D7801
+
+00B232AC:
+DD Hook
+
+[DISABLE]
+dealloc(Hook)
+00B232AC:
+DD 009D7801
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>132</ID>
+      <Description>"無限洗頻"</Description>
+      <LastState/>
+      <VariableType>Auto Assembler Script</VariableType>
+      <AssemblerScript>[ENABLE]
+004933C5:
+jmp 004933E4
+[DISABLE]
+004933C5:
+jae 004933E4
+</AssemblerScript>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>101</ID>
+      <Description>"新無延遲"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00bf16e8</Address>
+      <Offsets>
+        <Offset>39C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>102</ID>
+      <Description>"停止呼吸"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF16E8</Address>
+      <Offsets>
+        <Offset>394</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>103</ID>
+      <Description>"攻擊不停"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF16E8</Address>
+      <Offsets>
+        <Offset>283C</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>104</ID>
+      <Description>"紅點數量"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF16F8</Address>
+      <Offsets>
+        <Offset>18</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>105</ID>
+      <Description>"X"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF2ECC</Address>
+      <Offsets>
+        <Offset>404</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>106</ID>
+      <Description>"Y"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF2ECC</Address>
+      <Offsets>
+        <Offset>408</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>107</ID>
+      <Description>"system_time"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF1AB0</Address>
+      <Offsets>
+        <Offset>18</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>108</ID>
+      <Description>"怪物數量"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF16F4</Address>
+      <Offsets>
+        <Offset>24</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>109</ID>
+      <Description>"滑鼠X"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF194C</Address>
+      <Offsets>
+        <Offset>94</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>110</ID>
+      <Description>"滑鼠Y"</Description>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00BF194C</Address>
+      <Offsets>
+        <Offset>98</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>111</ID>
+      <Description>"人物名"</Description>
+      <VariableType>String</VariableType>
+      <Length>15</Length>
+      <Unicode>0</Unicode>
+      <CodePage>0</CodePage>
+      <ZeroTerminate>1</ZeroTerminate>
+      <Address>00BF8e44</Address>
+      <Offsets>
+        <Offset>4</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>120</ID>
+      <Description>"hp_lock"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00bf16ec</Address>
+      <Offsets>
+        <Offset>80</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>121</ID>
+      <Description>"mp_lock"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00bf16ec</Address>
+      <Offsets>
+        <Offset>84</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>122</ID>
+      <Description>"hp"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00bf1948</Address>
+      <Offsets>
+        <Offset>978</Offset>
+      </Offsets>
+    </CheatEntry>
+    <CheatEntry>
+      <ID>123</ID>
+      <Description>"mp"</Description>
+      <ShowAsSigned>0</ShowAsSigned>
+      <VariableType>4 Bytes</VariableType>
+      <Address>00bf1948</Address>
+      <Offsets>
+        <Offset>97c</Offset>
+      </Offsets>
+    </CheatEntry>
+  </CheatEntries>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>HSCRCBypass</Name>
+      <Address>063A0000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>MSCRCBypass</Name>
+      <Address>063A0028</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Comments>Info about this table:
+</Comments>
+  <DisassemblerComments>
+    <DisassemblerComment>
+      <Address>"EHSvc.dll"+3434D0</Address>
+      <Comment>//
+      </Comment>
+    </DisassemblerComment>
+  </DisassemblerComments>
+</CheatTable>
