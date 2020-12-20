@@ -21,6 +21,12 @@ using Microsoft.Extensions.FileProviders;
 using System.IO;
 using Microsoft.AspNetCore.Http;
 using System.Text.Json.Serialization;
+using System.IdentityModel.Tokens.Jwt;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using intro.Helpers;
+using Microsoft.Extensions.Logging;
 
 namespace intro
 {
@@ -42,13 +48,20 @@ namespace intro
             var whiteListOptions = new WhiteListOptions();
             Configuration.GetSection("WhiteListOptions").Bind(whiteListOptions);
             services.AddDbContext<Models.WhiteLists.WhiteListContext>(options => sql.UseSqlService(options));
+            services.AddDbContext<Models.Posts.PostsContext>(options => 
+            {
+                sql.UseSqlService(options); 
+                options.UseLoggerFactory(LoggerFactory.Create(builder =>
+                {
+                    builder.AddConsole().AddDebug();
+                }));});
             services.AddSingleton(sql);
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 sql.UseSqlService(options));
 
 
-            services.AddDefaultIdentity<IdentityUser>(opt =>
+            services.AddDefaultIdentity<AppUser>(opt =>
             {
                 opt.Password.RequiredLength = 7;
                 opt.Password.RequireDigit = false;
@@ -59,7 +72,8 @@ namespace intro
                 opt.SignIn.RequireConfirmedEmail = false;
                 opt.SignIn.RequireConfirmedAccount = false;
             })
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
             services.AddControllersWithViews();
             services
                 .AddMvc()
@@ -69,6 +83,44 @@ namespace intro
                     opts.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
                 });
             services.AddRazorPages();
+            services
+            .AddAuthentication(options => 
+            {
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                
+            })
+            .AddJwtBearer(options =>
+            {
+                options.SaveToken = true;
+                // 當驗證失敗時，回應標頭會包含 WWW-Authenticate 標頭，這裡會顯示失敗的詳細錯誤原因
+                options.IncludeErrorDetails = true; // 預設值為 true，有時會特別關閉
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    
+                    // 透過這項宣告，就可以從 "sub" 取值並設定給 User.Identity.Name
+                    NameClaimType = "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier",
+                    // 透過這項宣告，就可以從 "roles" 取值，並可讓 [Authorize] 判斷角色
+                    RoleClaimType = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role",
+
+                    // 一般我們都會驗證 Issuer
+                    ValidateIssuer = true,
+                    ValidIssuer = Configuration.GetValue<string>("JwtSettings:Issuer"),
+
+                    // 通常不太需要驗證 Audience
+                    ValidateAudience = false,
+                    //ValidAudience = "JwtAuthDemo", // 不驗證就不需要填寫
+
+                    // 一般我們都會驗證 Token 的有效期間
+                    ValidateLifetime = true,
+
+                    // 如果 Token 中包含 key 才需要驗證，一般都只有簽章而已
+                    ValidateIssuerSigningKey = false,
+
+                    // "1234567890123456" 應該從 IConfiguration 取得
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration.GetValue<string>("JwtSettings:SignKey")))
+                };
+            });
+            services.AddSingleton(c => { return new JwtHelpers(Configuration); });
 
             //1. inject IContentChecker
             services.AddSingleton<IContentChecker, ContentChecker>();
@@ -156,6 +208,9 @@ namespace intro
 
             services.AddOpenApiDocument();
             services.AddAntiforgery(o => o.HeaderName = "X-CSRF-TOKEN");
+
+            services.AddCors();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -192,14 +247,18 @@ namespace intro
             //use whitelist middleware
             app.UseDefaultWhiteListMiddleWare(x =>
                 x.Response.Redirect(Path.Combine(whiteListOptions.BasePath, "Home/Forbidden")));
-
+            app.UseCors(x => x
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .SetIsOriginAllowed(origin => true) // allow any origin
+                .AllowCredentials()); // allow credentials
             app.UseStaticFiles();
 
             app.UseRouting();
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseHttpsRedirection();
 
             app.UseEndpoints(endpoints =>
             {

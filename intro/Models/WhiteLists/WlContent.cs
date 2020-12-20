@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace intro.Models.WhiteLists
 {
-    public partial class WlContent
+    public partial class WlContent : ITimeLogger
     {
         public long Id { get; set; }
         public long Wid { get; set; }

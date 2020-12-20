@@ -1,0 +1,31 @@
+@{
+    ViewData["Title"] = "Posts";
+}
+
+@model intro.ViewModels.Posts.Post;
+
+@{
+    var content = new Microsoft.AspNetCore.Html.HtmlString(Model.content);
+}
+
+<script>
+    $(document).ready(() => {
+        $('#contentBody').find('img').addClass('img-fluid');
+    });
+</script>
+
+
+<div class="starter-template text-left py-5 px-3">
+    <h1>@Model.name</h1>
+    <h4>Created: @Model.created_time</h4>
+    <h4>Updated: @Model.update_time</h4>
+    <div class="mw-70 ">
+        <img class="img-fluid" src="@Html.Raw(Model.photo)">
+        
+    </div>
+    <br>
+    <br>
+    <div class="mw-70 " id="contentBody">
+        @content
+    </div>
+</div>

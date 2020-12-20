@@ -7,7 +7,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace intro.Data
 {
-    public class ApplicationDbContext : IdentityDbContext
+    public class ApplicationDbContext : IdentityDbContext<AppUser>
     {
         public ApplicationDbContext()
             : base()

@@ -29,6 +29,7 @@ namespace intro.Controllers
         [ProducesResponseType(typeof(ResponseMessage<PingResult>), 200)]
         public async Task<HttpResponseMessage> PingApi(string address, int timeout = 10000)
         {
+            _logger.LogInformation($"Route: {this.Request.Path}, Address: {this.Request.HttpContext.Connection.RemoteIpAddress.ToString()}");
             if(timeout > 20000)
                 timeout = 20000;
             else if(timeout < 1)

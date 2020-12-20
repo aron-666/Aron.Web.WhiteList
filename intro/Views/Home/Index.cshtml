@@ -2,7 +2,9 @@
     ViewData["Title"] = "Home Page";
 }
 
-
+<link rel="stylesheet" href="~/css/jquery.eeyellow.Timeline.css">
+<script src="~/js/jquery.eeyellow.Timeline.js"></script>
+<script src="~/js/AutoVivaTimeLine.js"></script>
 <div>
     <p>
     <div class="input-group mb-3">
@@ -112,3 +114,69 @@
         </div>
     </div>
 </div>
+
+
+<script>
+    $(document).ready(() => {
+
+        $.getJSON("@ViewBag.root/intro/GetPosts", d => {
+            dl = new AutoVivaTimeLine('@ViewBag.root');
+            var tlBody = $('#tlBody');
+            tlBody.append(dl.build(d.data.Posts)); 
+            $('.VivaTimeline').vivaTimeline();
+
+        });
+
+    });
+</script>
+<style>
+    .events-object {
+        display: block;
+        max-width: 100%;
+        height: auto;
+        
+    }   
+    div {
+    }
+    .VivaTimeline dl dd .events {
+        /*padding-top: 0;*/
+    }
+    .VivaTimeline dl dd .events .events-header {
+        min-height: 22px;
+        line-height: 15px;
+    }
+    .VivaTimeline dl dd .circ {
+        background-color: orange;
+    }
+    .VivaTimeline dl dd .time{
+        color: orange;
+    }
+</style>
+<div class="VivaTimeline">
+  <dl id="tlBody">
+    @* <dt>May 2016</dt>                                    
+    <dd class="pos-left clearfix">
+      <div class="circ"></div>
+      <div class="time">Feb 03</div>
+      <div class="events">
+          <div class="events-header"></div>                                
+          <div class="events-body" style="padding: 0.3em;">                                                                                            
+              <div class="card">
+                <img src="~/images/aaa.jpg" class="card-img-top" alt="壞了50收">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary">查看更多</a>
+                </div>
+              </div>
+          </div>   
+          <div class="events-footer">
+            <a href="#">　</a>
+          </div>                               
+      </div>
+    </dd>
+    *@
+  </dl>
+</div>
+
+

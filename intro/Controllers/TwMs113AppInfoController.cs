@@ -26,6 +26,7 @@ namespace intro.Controllers
 
         public HttpResponseMessage GetAsmScriptA()
         {
+            _logger.LogInformation($"Route: {this.Request.Path}, Address: {this.Request.HttpContext.Connection.RemoteIpAddress.ToString()}");
             if(DateTime.Now <= new DateTime(2021, 1, 15, 23, 59, 59))
             {
                 string str = System.IO.File.ReadAllText(System.IO.Path.Combine("Docs", "113new.CT"));

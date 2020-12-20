@@ -26,6 +26,7 @@ namespace intro.Controllers
 
         public HttpResponseMessage Get()
         {
+            _logger.LogInformation($"Route: {this.Request.Path}, Address: {this.Request.HttpContext.Connection.RemoteIpAddress.ToString()}");
             List<MsServer> servers = new List<MsServer>();
             servers.Add(new MsServer(){ Name= "Aron Test Server", Address = "aronhome.in", Port = 8484, Site = "https://aronhome.in"});
 
