@@ -6,8 +6,6 @@ using System.Net;
 
 namespace intro.Controllers
 {
-    [AutoValidateAntiforgeryToken]
-    [ResponseCache(NoStore = true)]
     public class SiteToolsController : Controller
     {
         private readonly ILogger<SiteToolsController> _logger;

@@ -8,9 +8,20 @@
     var content = new Microsoft.AspNetCore.Html.HtmlString(Model.content);
 }
 
+<style>
+    .img-con{
+        max-height: 75vh;
+        padding: 3%;
+    }
+    .img-fluid{
+        padding: 3%;
+
+    }
+</style>
 <script>
     $(document).ready(() => {
         $('#contentBody').find('img').addClass('img-fluid');
+        $('#contentBody').find('img').addClass('img-con');
     });
 </script>
 
@@ -20,7 +31,7 @@
     <h4>Created: @Model.created_time</h4>
     <h4>Updated: @Model.update_time</h4>
     <div class="mw-70 ">
-        <img class="img-fluid" src="@Html.Raw(Model.photo)">
+        <img class="img-fluid" style="max-height: 65vh;" src="@Html.Raw(Model.photo)">
         
     </div>
     <br>

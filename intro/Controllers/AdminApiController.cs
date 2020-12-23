@@ -20,17 +20,19 @@ using intro.ViewModels.Posts;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Linq.Dynamic.Core;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace intro.Controllers
 {
     [Route("api/[controller]/[action]")]
+    
     public class AdminApiController : ControllerBase
     {
         private readonly ILogger _logger;
         private readonly JwtHelpers jwt;
-        private readonly UserManager<AppUser> userManager;
+        private readonly UserManager<IdentityUser> userManager;
         private readonly PostsContext _postsContext;
-        public AdminApiController(ILogger<AdminApiController> logger, UserManager<AppUser> userManager, JwtHelpers jwt, PostsContext context)
+        public AdminApiController(ILogger<AdminApiController> logger, UserManager<IdentityUser> userManager, JwtHelpers jwt, PostsContext context)
         {
             _logger = logger;
             this.jwt = jwt;
@@ -62,7 +64,8 @@ namespace intro.Controllers
         /// A03
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         public HttpResponseMessage Logout()
         {
             return this.CreateResponse("登出成功");
@@ -80,7 +83,8 @@ namespace intro.Controllers
         /// A04
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         public HttpResponseMessage Profile()
         {
@@ -91,9 +95,10 @@ namespace intro.Controllers
         /// <summary>
         /// A05
         /// </summary>
-        /// <param name="files"></param>
+        /// <param name="upload"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         [Route("/api/[controller]/posts/[action]")]
         public UploadImageRes Uploadimage(List<IFormFile> upload)
@@ -116,7 +121,8 @@ namespace intro.Controllers
         /// A06
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpPut]
         [Route("/api/[controller]/posts/[action]")]
         public HttpResponseMessage Post([FromBody]CreatePost post)
@@ -164,7 +170,8 @@ namespace intro.Controllers
         /// A07
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpPost]
         [Route("/api/[controller]/posts/[action]")]
         public HttpResponseMessage Post([FromBody] ModifyPost post)
@@ -217,7 +224,8 @@ namespace intro.Controllers
         /// A08
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpDelete]
         [Route("/api/[controller]/posts/[action]")]
         public HttpResponseMessage Post([FromBody] DeletePost post)
@@ -234,7 +242,8 @@ namespace intro.Controllers
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         [Route("/api/[controller]/posts/[action]/{id}")]
         public HttpResponseMessage Post(ulong id)
@@ -260,7 +269,8 @@ namespace intro.Controllers
         /// A12
         /// </summary>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         [Route("/api/[controller]/posts/[action]")]
         public HttpResponseMessage Tag()
@@ -275,7 +285,8 @@ namespace intro.Controllers
         /// <param name="q"></param>
         /// <param name="page"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         [Route("/api/[controller]/posts/[action]")]
         public HttpResponseMessage Search(string q, int page = 1)
@@ -315,7 +326,8 @@ namespace intro.Controllers
         /// <param name="t_id"></param>
         /// <param name="top"></param>
         /// <returns></returns>
-        [Authorize]
+        [Authorize(AuthenticationSchemes = 
+            JwtBearerDefaults.AuthenticationScheme)]
         [HttpGet]
         [Route("/api/[controller]/posts/[action]")]
         public HttpResponseMessage Top(uint? t_id = null, int top = 5)

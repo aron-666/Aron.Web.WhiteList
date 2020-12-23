@@ -67,6 +67,7 @@ class AutoVivaTimeLine{
         img.src = post.Image;
         img.className = "card-img-top";
         img.alt = "壞了50收";
+        img.style="max-height: 40em;"
         card.appendChild(img);
         var cardBody = document.createElement("div");
         cardBody.className = "card-body";
